@@ -1,0 +1,63 @@
+{
+  "title": "daily_advice",
+  "description": "",
+  "head": "<meta charset=\"UTF-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />",
+  "htmlAttrs": "lang=\"en\" class=\"\"",
+  "tags": [],
+  "autoupdate": true,
+  "autosave": false,
+  "autotest": false,
+  "delay": 1500,
+  "formatOnsave": false,
+  "view": "split",
+  "mode": "full",
+  "theme": "dark",
+  "layout": "responsive",
+  "recoverUnsaved": true,
+  "showSpacing": false,
+  "welcome": true,
+  "readonly": false,
+  "allowLangChange": true,
+  "activeEditor": "script",
+  "markup": {
+    "language": "html",
+    "content": "<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Generador de Consejos</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n    <main class=\"container\">\n        <h1>Consejo del Día</h1>\n        \n        \n        <div id=\"quote-container\" class=\"quote-box\">\n            <!-- El texto inicial antes de llamar a la API -->\n            <p id=\"quote-text\">Haz clic en el botón para recibir sabiduría gratuita.</p>\n        </div>\n        \n        <button id=\"fetch-btn\">Obtener Consejo</button>\n    </main>\n    \n    <script src=\"app.js\">\n        console.log(\"Hola, mundo!\");\n    </script>\n</body>\n</html>"
+  },
+  "style": {
+    "language": "css",
+    "content": "* {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n}\n\nbody {\n    font-family: system-ui, -apple-system, sans-serif;\n    background-color: #f4f4f9;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    color: #333;\n}\n\n.container {\n    background-color: white;\n    padding: 2.5rem;\n    border-radius: 12px;\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);\n    text-align: center;\n    max-width: 450px;\n    width: 90%;\n}\n\nh1 {\n    font-size: 1.5rem;\n    margin-bottom: 1.5rem;\n    color: #2c3e50;\n}\n\n.quote-box {\n    min-height: 100px;\n    margin-bottom: 1.5rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    padding: 1rem;\n    background-color: #f8f9fa;\n    border-radius: 8px;\n    border-left: 4px solid #3498db;\n}\n\n#quote-text {\n    font-size: 1.1rem;\n    font-style: italic;\n    color: #555;\n    line-height: 1.6;\n}\n\nbutton {\n    background-color: #3498db;\n    color: white;\n    border: none;\n    padding: 12px 24px;\n    font-size: 1rem;\n    font-weight: bold;\n    border-radius: 6px;\n    cursor: pointer;\n    transition: background-color 0.2s;\n}\n\nbutton:hover {\n    background-color: #2980b9;\n}\n\nbutton:disabled {\n    background-color: #bdc3c7;\n    cursor: not-allowed;\n}"
+  },
+  "script": {
+    "language": "javascript",
+    "content": "// Actividad: Generador de Consejos con JavaScript\n\n// PASO 1: Seleccionar los elementos del DOM\n// Utiliza 'const' para declarar las variables, ya que estos elementos no cambiarán.\n// Pista: usa document.getElementById('id-del-elemento')\n\n// TODO: Selecciona el botón usando su id ('fetch-btn') y asígnalo a una variable const\nconst boton = document.getElementById('fetch-btn');\n\n// TODO: Selecciona el párrafo del texto ('quote-text') y asígnalo a una variable const\nconst textoConsejo = document.getElementById('quote-text');\n\n\n\n// PASO 2: Crear la función para consumir la API\n// Utilizaremos una Arrow Function y la sintaxis async/await\n// URL de la API: 'https://api.adviceslip.com/advice'\n\nconst obtenerConsejo = async () => {\n    try {\n        // Deshabilitamos el botón mientras carga para evitar múltiples clics\n        // TODO: (opcional pero recomendado) deshabilitar el botón\n        boton.disabled = true;\n\n        // Mostramos un texto de carga\n        //TODO: (opcional) puedes cambiar el texto del párrafo a mientras se carga\n        textoConsejo.textContent = \"Cargando...\";\n\n        // 2.1 Utiliza 'fetch' para llamar a la API. Recuerda usar 'await' ya que fetch devuelve una promesa.\n        // TODO: const respuesta = ...\n        const respuesta = await fetch('https://api.adviceslip.com/advice');\n        \n        // 2.2 Convierte la respuesta a formato JSON. También requiere 'await' ya que es una promesa.\n        // TODO: const data = ...\n        const data =  await respuesta.json();\n        \n        // 2.3 Extrae el consejo. (La API devuelve el texto dentro de data.slip.advice)\n        // TODO: const consejo = ...\n        const consejo = data.slip.advice;\n        const id = data.slip.id;\n\n        // 2.4 Muestra el consejo en el HTML usando Template Literals (``)\n        // TODO: textoConsejo.textContent = ...\n        textoConsejo.textContent = `Consejo N°${id}: ${consejo}`;\n        \n    } catch (error) {\n        // Qué pasa si hay un error (ej. el usuario se queda sin internet)\n        // TODO: console.error...\n        console.error(error);\n        // TODO: text.textcontent = ...\n        textoConsejo.textContent = \"¡Ups! Parece que ha habido un error...\"\n    } finally {\n        // El bloque finally se ejecuta SIEMPRE, haya error o no.\n        // Aquí volvemos a habilitar el botón para que puedan pedir otro consejo.\n        // TODO: boton.disabled ...\n        boton.disabled = false;\n\n    }\n};\n\n// Conectamos el botón con la función\n// Utilizamos addEventListener para escuchar el evento de 'clic' en el botón\n\n// TODO: boton.addEventListener...\nboton.addEventListener('click', obtenerConsejo);"
+  },
+  "stylesheets": [],
+  "scripts": [],
+  "cssPreset": "",
+  "imports": {},
+  "types": {},
+  "tests": {
+    "language": "typescript",
+    "content": ""
+  },
+  "tools": {
+    "enabled": "all",
+    "active": "console",
+    "status": "closed"
+  },
+  "zoom": 1,
+  "processors": [],
+  "customSettings": {},
+  "useTabs": false,
+  "tabSize": 2,
+  "lineNumbers": true,
+  "wordWrap": false,
+  "closeBrackets": true,
+  "foldRegions": false,
+  "semicolons": true,
+  "singleQuote": false,
+  "trailingComma": true,
+  "minimap": false,
+  "emmet": true,
+  "version": "49"
+}
