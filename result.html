@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head><script>window.livecodes = window.livecodes || {};</script><title>daily_advice</title><meta name="title" content="daily_advice"><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style id="__livecodes_styles__">* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+.container {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+.quote-box {
+    min-height: 100px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+#quote-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #555;
+    line-height: 1.6;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}</style><script src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.0/dist/es-module-shims.js" async=""></script><script type="importmap">{
+  "imports": {}
+}</script></head><body>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Consejos</title>
+    <link rel="stylesheet" href="style.css">
+
+
+    <main class="container">
+        <h1>Consejo del Día</h1>
+        
+        
+        <div id="quote-container" class="quote-box">
+            <!-- El texto inicial antes de llamar a la API -->
+            <p id="quote-text">Haz clic en el botón para recibir sabiduría gratuita.</p>
+        </div>
+        
+        <button id="fetch-btn">Obtener Consejo</button>
+    </main>
+    
+    <script src="app.js">
+        console.log("Hola, mundo!");
+    </script>
+
+<script type="module">// Actividad: Generador de Consejos con JavaScript
+
+// PASO 1: Seleccionar los elementos del DOM
+// Utiliza 'const' para declarar las variables, ya que estos elementos no cambiarán.
+// Pista: usa document.getElementById('id-del-elemento')
+
+// TODO: Selecciona el botón usando su id ('fetch-btn') y asígnalo a una variable const
+const boton = document.getElementById('fetch-btn');
+
+// TODO: Selecciona el párrafo del texto ('quote-text') y asígnalo a una variable const
+const textoConsejo = document.getElementById('quote-text');
+
+
+
+// PASO 2: Crear la función para consumir la API
+// Utilizaremos una Arrow Function y la sintaxis async/await
+// URL de la API: 'https://api.adviceslip.com/advice'
+
+const obtenerConsejo = async () => {
+    try {
+        // Deshabilitamos el botón mientras carga para evitar múltiples clics
+        // TODO: (opcional pero recomendado) deshabilitar el botón
+        boton.disabled = true;
+
+        // Mostramos un texto de carga
+        //TODO: (opcional) puedes cambiar el texto del párrafo a mientras se carga
+        textoConsejo.textContent = "Cargando...";
+
+        // 2.1 Utiliza 'fetch' para llamar a la API. Recuerda usar 'await' ya que fetch devuelve una promesa.
+        // TODO: const respuesta = ...
+        const respuesta = await fetch('https://api.adviceslip.com/advice');
+        
+        // 2.2 Convierte la respuesta a formato JSON. También requiere 'await' ya que es una promesa.
+        // TODO: const data = ...
+        const data =  await respuesta.json();
+        
+        // 2.3 Extrae el consejo. (La API devuelve el texto dentro de data.slip.advice)
+        // TODO: const consejo = ...
+        const consejo = data.slip.advice;
+        const id = data.slip.id;
+
+        // 2.4 Muestra el consejo en el HTML usando Template Literals (``)
+        // TODO: textoConsejo.textContent = ...
+        textoConsejo.textContent = `Consejo N°${id}: ${consejo}`;
+        
+    } catch (error) {
+        // Qué pasa si hay un error (ej. el usuario se queda sin internet)
+        // TODO: console.error...
+        console.error(error);
+        // TODO: text.textcontent = ...
+        textoConsejo.textContent = "¡Ups! Parece que ha habido un error..."
+    } finally {
+        // El bloque finally se ejecuta SIEMPRE, haya error o no.
+        // Aquí volvemos a habilitar el botón para que puedan pedir otro consejo.
+        // TODO: boton.disabled ...
+        boton.disabled = false;
+
+    }
+};
+
+// Conectamos el botón con la función
+// Utilizamos addEventListener para escuchar el evento de 'clic' en el botón
+
+// TODO: boton.addEventListener...
+boton.addEventListener('click', obtenerConsejo);</script></body></html>
